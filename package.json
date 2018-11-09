@@ -1,0 +1,28 @@
+{
+  "name": "@bambus/auth",
+  "version": "0.1.0",
+  "description": "Bambus-Plugin for authentification",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "tsc -d -p ./ --outDir dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com:piceaTech/bambus-auth.git"
+  },
+  "author": "Felix Fichte <dev@spruce.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/piceaTech/bambus-auth/issues"
+  },
+  "homepage": "https://github.com/piceaTech/bambus-auth#readme",
+  "dependencies": {
+    "@bambus/main": "^0.1.0"
+  },
+  "devDependencies": {
+    "debug": "^4.1.0",
+    "typescript": "^3.1.6"
+  }
+}
