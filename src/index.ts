@@ -43,8 +43,8 @@ export function requiresAuth(target: Controller, propertyKey: string) { // this 
     target[authenticatedSymbol] = {}
   }
   debug(propertyKey);
-  let obj = findRouteOrAction(target, propertyKey)
-  target[authenticatedSymbol][obj.method + ' ' + obj.path] = true;  
+  let name = findRouteOrActionName(target, propertyKey)
+  target[authenticatedSymbol][name] = true;  
   
 
 }
@@ -54,15 +54,15 @@ export function allRequireAuth(constructor: ControllerConstructor) { // this is 
     constructor.prototype[authenticatedSymbol] = {}
   }
 
-  for (let obj of (constructor.prototype[actionsSymbol] || [])) {
-    if(constructor.prototype[authenticatedSymbol][obj.method + ' ' + obj.path] !== false){
-      constructor.prototype[authenticatedSymbol][obj.method + ' ' + obj.path] = true;
+  for (let name in (constructor.prototype[actionsSymbol] || {})) {
+    if(constructor.prototype[authenticatedSymbol][name] !== false){
+      constructor.prototype[authenticatedSymbol][name] = true;
     }
   }
 
-  for (let obj of (constructor.prototype[routesSymbol] || [])) {
-    if(constructor.prototype[authenticatedSymbol][obj.method + ' ' + obj.path] !== false){
-      constructor.prototype[authenticatedSymbol][obj.method + ' ' + obj.path] = true;
+  for (let name in (constructor.prototype[routesSymbol] || {})) {
+    if(constructor.prototype[authenticatedSymbol][name] !== false){
+      constructor.prototype[authenticatedSymbol][name] = true;
     }
   }
 }
@@ -73,22 +73,27 @@ export function requiresNoAuth (target: Controller, propertyKey: string): any { 
     target[authenticatedSymbol] = {}
   }
 
-    let obj = target[actionsSymbol].filter(function(item){
-      return item.name === propertyKey;
-    })[0];
-  target[authenticatedSymbol][obj.method + ' ' + obj.path] = false;
+  let name = findRouteOrActionName(target, propertyKey)
+  target[authenticatedSymbol][name] = true;
 }
 
 
-function findRouteOrAction(target: Controller, name: string) {
-  let obj = target[actionsSymbol].filter(function(item){
-    return item.name === name;
-  })[0];
-  if(!!obj){
-    return obj
+function findRouteOrActionName(target: Controller, propName: string): string {
+
+  for (let name in (target.constructor.prototype[routesSymbol] || {})) {
+    let obj = target.constructor.prototype[routesSymbol][name];
+    if(obj.name === propName){
+      return name;
+    }
   }
-  obj = target[routesSymbol].filter(function(item){
-      return item.name === name;
-    })[0];
-  return obj;
+  for (let name in (target.constructor.prototype[actionsSymbol] || {})) {
+    let obj = target.constructor.prototype[actionsSymbol][name];
+    if(obj.name === propName){
+      return name;
+    }
+  }
 }
+
+
+
+
