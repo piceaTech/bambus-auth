@@ -29,7 +29,7 @@ export default function(bambus: Bambus, authFn: Function){
       if(needAuth[auth]){
         let split = auth.split(' ');
         let toExecute = correctFunctionBasedOnName(currentController.router, split[0]);
-        toExecute(auth, split[1], authFn);
+        toExecute('auth ' + auth, split[1], authFn);
       }
     }
   }
@@ -44,16 +44,13 @@ export function requiresAuth(target: Controller, propertyKey: string) { // this 
   }
   debug(propertyKey);
   let name = findRouteOrActionName(target, propertyKey)
-  target[authenticatedSymbol][name] = true;  
-  
-
+  target[authenticatedSymbol][name] = true;
 }
 
 export function allRequireAuth(constructor: ControllerConstructor) { // this is the decorator
   if(!constructor.prototype[authenticatedSymbol]){
     constructor.prototype[authenticatedSymbol] = {}
   }
-
   for (let name in (constructor.prototype[actionsSymbol] || {})) {
     if(constructor.prototype[authenticatedSymbol][name] !== false){
       constructor.prototype[authenticatedSymbol][name] = true;
@@ -74,9 +71,8 @@ export function requiresNoAuth (target: Controller, propertyKey: string): any { 
   }
 
   let name = findRouteOrActionName(target, propertyKey)
-  target[authenticatedSymbol][name] = true;
+  target[authenticatedSymbol][name] = false;
 }
-
 
 function findRouteOrActionName(target: Controller, propName: string): string {
 
