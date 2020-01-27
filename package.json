@@ -1,6 +1,6 @@
 {
   "name": "@bambus/auth",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Bambus-Plugin for authentification",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,8 +19,8 @@
     "url": "https://github.com/piceaTech/bambus-auth/issues"
   },
   "homepage": "https://github.com/piceaTech/bambus-auth#readme",
-  "dependencies": {
-    "@bambus/main": "^0.1.0"
+  "peerDependencies": {
+    "@bambus/main": "^0.1.7"
   },
   "devDependencies": {
     "debug": "^4.1.0",
