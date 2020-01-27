@@ -19,7 +19,7 @@
     "url": "https://github.com/piceaTech/bambus-auth/issues"
   },
   "homepage": "https://github.com/piceaTech/bambus-auth#readme",
-  "dependencies": {
+  "peerDependencies": {
     "@bambus/main": "^0.1.0"
   },
   "devDependencies": {
